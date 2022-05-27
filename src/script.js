@@ -16,7 +16,6 @@ function logWeatherData(response) {
 
   let currentTemperature = document.querySelector("#current-temperature");
   currentTemperature.innerHTML = `${temperature}°C`;
-
   let currentHumidity = document.querySelector("#current-humidity");
   currentHumidity.innerHTML = `${humidity}`;
   let currentWind = document.querySelector("#current-wind");
@@ -27,11 +26,24 @@ function logWeatherData(response) {
   currentCity.innerHTML = `${city}, ${country}`;
   let currentWeather = document.querySelector("#weather");
   currentWeather.innerHTML = `${weather}`;
+
+  /////iconset
+
+  let currentIcon = document.querySelectorAll("#weather-icon");
+  for (let i = 0; i < currentIcon.length; i++) {
+    currentIcon[i].setAttribute(
+      "src",
+      `img/${response.data.weather[0].icon}.png`
+    );
+    currentIcon[i].setAttribute(
+      "alt",
+      `img/${response.data.weather[0].description}`
+    );
+  }
 }
 
 function logWeatherData5(response5) {
   console.log(response5.data);
-  console.log(response5.data.daily[0].temp.min);
   let minTemperature = Math.round(response5.data.daily[0].temp.min);
   let maxTemperature = Math.round(response5.data.daily[0].temp.max);
   let minTemperature1 = Math.round(response5.data.daily[1].temp.min);
@@ -44,18 +56,14 @@ function logWeatherData5(response5) {
   let maxTemperature4 = Math.round(response5.data.daily[4].temp.max);
   let minTemperature5 = Math.round(response5.data.daily[5].temp.min);
   let maxTemperature5 = Math.round(response5.data.daily[5].temp.max);
-  let currentMinTemperature = document.querySelectorAll(
+  let currentMinTemperature = document.querySelector(
     "#current-min-temperature"
   );
-  for (let i = 0; i < currentMinTemperature.length; i++) {
-    currentMinTemperature[i].innerHTML = `${minTemperature}°C`;
-  }
-  let currentMaxTemperature = document.querySelectorAll(
+  currentMinTemperature.innerHTML = `${minTemperature}°C`;
+  let currentMaxTemperature = document.querySelector(
     "#current-max-temperature"
   );
-  for (let i = 0; i < currentMaxTemperature.length; i++) {
-    currentMaxTemperature[i].innerHTML = `${maxTemperature}°C`;
-  }
+  currentMaxTemperature.innerHTML = `${maxTemperature}°C`;
 
   let currentMinTemperature1 = document.querySelector(
     "#current-min-temperature1"
@@ -101,6 +109,56 @@ function logWeatherData5(response5) {
     "#current-max-temperature5"
   );
   currentMaxTemperature5.innerHTML = `${maxTemperature5}°C`;
+  ///// icons 5 days
+  let currentWeatherIcon1 = document.querySelector("#weather-icon1");
+  currentWeatherIcon1.setAttribute(
+    "src",
+    `img/${response5.data.daily[1].weather[0].icon}.png`
+  );
+  currentWeatherIcon1.setAttribute(
+    "alt",
+    `img/${response5.data.daily[1].weather[0].description}`
+  );
+
+  let currentWeatherIcon2 = document.querySelector("#weather-icon2");
+  currentWeatherIcon2.setAttribute(
+    "src",
+    `img/${response5.data.daily[2].weather[0].icon}.png`
+  );
+  currentWeatherIcon2.setAttribute(
+    "alt",
+    `img/${response5.data.daily[2].weather[0].description}`
+  );
+
+  let currentWeatherIcon3 = document.querySelector("#weather-icon3");
+  currentWeatherIcon3.setAttribute(
+    "src",
+    `img/${response5.data.daily[3].weather[0].icon}.png`
+  );
+  currentWeatherIcon3.setAttribute(
+    "alt",
+    `img/${response5.data.daily[3].weather[0].description}`
+  );
+
+  let currentWeatherIcon4 = document.querySelector("#weather-icon4");
+  currentWeatherIcon4.setAttribute(
+    "src",
+    `img/${response5.data.daily[4].weather[0].icon}.png`
+  );
+  currentWeatherIcon4.setAttribute(
+    "alt",
+    `img/${response5.data.daily[4].weather[0].description}`
+  );
+
+  let currentWeatherIcon5 = document.querySelector("#weather-icon5");
+  currentWeatherIcon5.setAttribute(
+    "src",
+    `img/${response5.data.daily[5].weather[0].icon}.png`
+  );
+  currentWeatherIcon5.setAttribute(
+    "alt",
+    `img/${response5.data.daily[5].weather[0].description}`
+  );
 }
 
 function trackLocation(coordinates) {
@@ -124,11 +182,12 @@ function trackLocation5(coordinates5) {
 }
 
 function applyLink5(locationLink) {
-  let weatherLink = `https://api.openweathermap.org/data/2.5/onecall?${locationLink}&units=${units}&appid=${apiKey}`;
+  let weatherLink = `https://api.openweathermap.org/data/2.5/onecall?${locationLink}&exclude=minutely,hourly,alerts&units=${units}&appid=${apiKey}`;
   axios.get(weatherLink).then(logWeatherData5);
 }
 
-navigator.geolocation.getCurrentPosition(trackLocation, trackLocation5);
+navigator.geolocation.getCurrentPosition(trackLocation);
+navigator.geolocation.getCurrentPosition(trackLocation5);
 
 let now = new Date();
 console.log(now);
