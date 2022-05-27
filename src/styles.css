@@ -41,10 +41,20 @@ img{
 }
 
 a{
-    color: rgb(13, 202, 240)
+    color: rgb(13, 202, 240);
+    text-decoration-line: none;
 }
 .inlineImg{
     width: 70px;
     padding-top: 10px;
 padding-bottom: 5px;
+}
+
+.cfstyle .active{
+  text-decoration: none;
+  color: white;
+  cursor: default;  
+}
+.cfstyle .active:hover{
+   text-decoration: none;
 }

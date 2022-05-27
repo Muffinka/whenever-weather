@@ -1,5 +1,6 @@
 let apiKey = `992c88e05d9caeefb130effc34e9ce07`;
 let units = `metric`;
+let celsiusTemp = 1;
 
 function logWeatherData(response) {
   console.log(response.data);
@@ -11,6 +12,9 @@ function logWeatherData(response) {
   let city = response.data.name;
   let country = response.data.sys.country;
   let weather = response.data.weather[0].main;
+
+  celsiusTemp = response.data.main.temp;
+  console.log(celsiusTemp);
 
   //Replacement in HTML
 
@@ -168,6 +172,7 @@ function trackLocation(coordinates) {
   let lon = coordinates.coords.longitude;
   applyLink(`lat=${lat}&lon=${lon}`);
 }
+
 function applyLink(locationLink) {
   let weatherLink = `https://api.openweathermap.org/data/2.5/weather?${locationLink}&units=${units}&appid=${apiKey}`;
   axios.get(weatherLink).then(logWeatherData);
@@ -341,3 +346,26 @@ function changeLocation(event) {
 
 let searchParse = document.querySelector("#search-Parse");
 searchParse.addEventListener("keypress", changeLocation);
+
+function convertToFahrenheit(event) {
+  event.preventDefault();
+  let farenheitResult = (celsiusTemp * 9) / 5 + 32;
+  let currentTemperature = document.querySelector("#current-temperature");
+  currentTemperature.innerHTML = `${Math.round(farenheitResult)}°F`;
+  convertToC.classList.remove("active");
+  convertToF.classList.add("active");
+}
+
+function convertToCelsius(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#current-temperature");
+  temperatureElement.innerHTML = `${Math.round(celsiusTemp)}°C`;
+  convertToC.classList.add("active");
+  convertToF.classList.remove("active");
+}
+
+let convertToF = document.querySelector("#to-farenheit");
+convertToF.addEventListener("click", convertToFahrenheit);
+
+let convertToC = document.querySelector("#to-celsius");
+convertToC.addEventListener("click", convertToCelsius);
