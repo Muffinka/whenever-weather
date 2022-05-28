@@ -3,6 +3,9 @@ let units = `metric`;
 let celsiusTemp = 1;
 
 function logWeatherData(response) {
+  let lat = response.data.coord.lat;
+  let lon = response.data.coord.lon;
+  applyLink5(`lat=${lat}&lon=${lon}`);
   console.log(response.data);
   //
   let temperature = Math.round(response.data.main.temp);
@@ -14,7 +17,6 @@ function logWeatherData(response) {
   let weather = response.data.weather[0].main;
 
   celsiusTemp = response.data.main.temp;
-  console.log(celsiusTemp);
 
   //Replacement in HTML
 
@@ -166,8 +168,6 @@ function logWeatherData5(response5) {
 }
 
 function trackLocation(coordinates) {
-  console.log(coordinates.coords.latitude);
-  console.log(coordinates.coords.longitude);
   let lat = coordinates.coords.latitude;
   let lon = coordinates.coords.longitude;
   applyLink(`lat=${lat}&lon=${lon}`);
@@ -178,24 +178,14 @@ function applyLink(locationLink) {
   axios.get(weatherLink).then(logWeatherData);
 }
 
-function trackLocation5(coordinates5) {
-  console.log(coordinates5.coords.latitude);
-  console.log(coordinates5.coords.longitude);
-  let lat = coordinates5.coords.latitude;
-  let lon = coordinates5.coords.longitude;
-  applyLink5(`lat=${lat}&lon=${lon}`);
-}
-
 function applyLink5(locationLink) {
   let weatherLink = `https://api.openweathermap.org/data/2.5/onecall?${locationLink}&exclude=minutely,hourly,alerts&units=${units}&appid=${apiKey}`;
   axios.get(weatherLink).then(logWeatherData5);
 }
 
 navigator.geolocation.getCurrentPosition(trackLocation);
-navigator.geolocation.getCurrentPosition(trackLocation5);
 
 let now = new Date();
-console.log(now);
 
 let currentDay = document.querySelectorAll("#current-day");
 let currentMonth = document.querySelectorAll("#current-month");
@@ -215,7 +205,6 @@ let days = [
 let daysAbb = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 let day = days[now.getDay()];
-console.log(day);
 
 let months = [
   "January",
